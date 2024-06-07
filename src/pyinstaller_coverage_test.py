@@ -22,7 +22,7 @@ import unittest
 
 class PyInstallerCoverageTest(unittest.TestCase):
 
-  def test_build_and_run(self):
+  def test_build_and_run(self) -> None:
     coverage_test = os.path.join(
         os.path.dirname(os.path.realpath(__file__)), "coverage_test.py")
     subprocess.check_call([

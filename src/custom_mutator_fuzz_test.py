@@ -51,7 +51,7 @@ def compressed_data(data):
 
 class CustomMutatorTests(unittest.TestCase):
 
-  def testCompressedData(self):
+  def testCompressedData(self) -> None:
     fuzz_test_lib.run_fuzztest(
         compressed_data,
         setup_kwargs={"custom_mutator": compressed_mutator},

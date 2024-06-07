@@ -27,7 +27,7 @@ else:
   def instrument_func(x):
     return x
 
-  def instrument_all():
+  def instrument_all() -> None:
     pass
 
   @contextlib.contextmanager

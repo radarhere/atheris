@@ -365,7 +365,7 @@ class ExceptionTableEntry:
 
 class ExceptionTable:
 
-  def __init__(self, entries: List[ExceptionTableEntry]):
+  def __init__(self, entries: List[ExceptionTableEntry]) -> None:
     self.entries = entries
 
   def __repr__(self) -> str:

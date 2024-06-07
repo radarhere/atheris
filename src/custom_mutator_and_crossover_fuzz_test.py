@@ -41,7 +41,7 @@ def test_one_input(data):
 
 class CustomMutatorAndCrossoverTests(unittest.TestCase):
 
-  def testMutator(self):
+  def testMutator(self) -> None:
     fuzz_test_lib.run_fuzztest(
         test_one_input,
         setup_kwargs={
@@ -50,7 +50,7 @@ class CustomMutatorAndCrossoverTests(unittest.TestCase):
         },
         expected_output=b"Hello from mutator")
 
-  def testCrossover(self):
+  def testCrossover(self) -> None:
     fuzz_test_lib.run_fuzztest(
         test_one_input,
         setup_kwargs={

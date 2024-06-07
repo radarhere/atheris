@@ -132,14 +132,14 @@ class StrProperties:
 
 # Verifying that no tracing happens since startswith is a property
 @atheris.instrument_func
-def property_starts_with():
+def property_starts_with() -> None:
   fake_str = StrProperties()
   fake_str.startswith = None
 
 
 # Verifying that no patching happens since endswith is a property
 @atheris.instrument_func
-def property_ends_with():
+def property_ends_with() -> None:
   fake_str = StrProperties()
   fake_str.endswith = None
 

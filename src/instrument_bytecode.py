@@ -268,7 +268,7 @@ class Instruction:
 class BasicBlock:
   """A block of bytecode instructions and the adresses it may jump to."""
 
-  def __init__(self, instructions: List[Instruction], last_one: bool):
+  def __init__(self, instructions: List[Instruction], last_one: bool) -> None:
     self.instructions = instructions
     self.id = instructions[0].offset
 
@@ -317,7 +317,7 @@ class Instrumentor:
   Note that Instrumentor only supports insertions, not deletions.
   """
 
-  def __init__(self, code: types.CodeType):
+  def __init__(self, code: types.CodeType) -> None:
     self._cfg: collections.OrderedDict = collections.OrderedDict()
     self.consts = list(code.co_consts)
     self._names = list(code.co_names)

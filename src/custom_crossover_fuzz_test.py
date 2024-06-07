@@ -42,7 +42,7 @@ def bytes_comparison(data):
 
 class CustomCrossoverTests(unittest.TestCase):
 
-  def testBytesComparison(self):
+  def testBytesComparison(self) -> None:
     fuzz_test_lib.run_fuzztest(
         bytes_comparison,
         setup_kwargs={
@@ -51,7 +51,7 @@ class CustomCrossoverTests(unittest.TestCase):
         expected_output=b"Was a|b|c|d|e",
         timeout=30)
 
-  def testNoOpCrossover(self):
+  def testNoOpCrossover(self) -> None:
     fuzz_test_lib.run_fuzztest(
         bytes_comparison,
         setup_kwargs={

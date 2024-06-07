@@ -58,7 +58,7 @@ class AtherisMetaPathFinder(abc.MetaPathFinder):
   """Finds and loads package metapaths with Atheris loaders."""
 
   def __init__(self, include_packages: Set[str], exclude_modules: Set[str],
-               enable_loader_override: bool, trace_dataflow: bool):
+               enable_loader_override: bool, trace_dataflow: bool) -> None:
     """Finds and loads package metapaths with Atheris loaders.
 
     Args:
@@ -200,7 +200,7 @@ class AtherisSourcelessFileLoader(
     _frozen_importlib_external.SourcelessFileLoader):
   """Loads a sourceless/bytecode file, patching it with Atheris instrumentation."""
 
-  def __init__(self, name: str, path: str, trace_dataflow: bool):
+  def __init__(self, name: str, path: str, trace_dataflow: bool) -> None:
     super().__init__(name, path)
     self._trace_dataflow = trace_dataflow
 
@@ -269,7 +269,7 @@ class HookManager:
   """A Context manager that manages hooks."""
 
   def __init__(self, include_packages: Set[str], exclude_modules: Set[str],
-               enable_loader_override: bool, trace_dataflow: bool):
+               enable_loader_override: bool, trace_dataflow: bool) -> None:
     self._include_packages = include_packages
     self._exclude_modules = exclude_modules
     self._enable_loader_override = enable_loader_override

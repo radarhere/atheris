@@ -224,34 +224,34 @@ def runtime_instrument_code(data):
 
 class IntegrationTests(unittest.TestCase):
 
-  def testFails(self):
+  def testFails(self) -> None:
     fuzz_test_lib.run_fuzztest(
         fail_immediately, expected_output=b"Failed immediately")
 
-  def testManyBranches(self):
+  def testManyBranches(self) -> None:
     fuzz_test_lib.run_fuzztest(
         many_branches, expected_output=b"Many branches", timeout=90)
 
-  def testBytesComparison(self):
+  def testBytesComparison(self) -> None:
     fuzz_test_lib.run_fuzztest(
         bytes_comparison, expected_output=b"Was foobarbazbiz", timeout=30)
 
-  def testStringComparison(self):
+  def testStringComparison(self) -> None:
     fuzz_test_lib.run_fuzztest(
         string_comparison, expected_output=b"Was foobarbazbiz", timeout=30)
 
-  def testUtf8Comparison(self):
+  def testUtf8Comparison(self) -> None:
     fuzz_test_lib.run_fuzztest(
         utf8_comparison, expected_output=b"Was random unicode", timeout=60)
 
-  def testNestedUtf8Comparison(self):
+  def testNestedUtf8Comparison(self) -> None:
     fuzz_test_lib.run_fuzztest(
         nested_utf8_comparison,
         expected_output=b"Was hello",
         timeout=60,
     )
 
-  def testTimeoutPy(self):
+  def testTimeoutPy(self) -> None:
     """This test verifies that timeout messages are recorded from -timeout."""
     fuzz_test_lib.run_fuzztest(
         timeout_py,
@@ -262,13 +262,13 @@ class IntegrationTests(unittest.TestCase):
         args=["-timeout=1"],
         expected_output=b"ERROR: libFuzzer: timeout after")
 
-  def testRegExMatch(self):
+  def testRegExMatch(self) -> None:
     fuzz_test_lib.run_fuzztest(
         regex_match,
         expected_output=b"Was RegEx Match",
         enabled_hooks=["RegEx"])
 
-  def testStrStartswith(self):
+  def testStrStartswith(self) -> None:
     fuzz_test_lib.run_fuzztest(
         str_startswith,
         expected_output=b"Started with foobar",
@@ -276,7 +276,7 @@ class IntegrationTests(unittest.TestCase):
         timeout=60,
     )
 
-  def testStrEndswith(self):
+  def testStrEndswith(self) -> None:
     fuzz_test_lib.run_fuzztest(
         str_endswith,
         expected_output=b"Ended with bazbiz",
@@ -284,7 +284,7 @@ class IntegrationTests(unittest.TestCase):
         timeout=60,
     )
 
-  def testStrMethodsCombined(self):
+  def testStrMethodsCombined(self) -> None:
     fuzz_test_lib.run_fuzztest(
         str_methods_combined,
         expected_output=b"Started with foo and ended with bar",
@@ -292,7 +292,7 @@ class IntegrationTests(unittest.TestCase):
         timeout=60,
     )
 
-  def testStrStartswithTuplePrefix(self):
+  def testStrStartswithTuplePrefix(self) -> None:
     fuzz_test_lib.run_fuzztest(
         str_startswith_tuple_prefix,
         expected_output=b"Started with oneof (foobar, hellohi, supyo)",
@@ -300,7 +300,7 @@ class IntegrationTests(unittest.TestCase):
         timeout=60,
     )
 
-  def testStrEndswithTupleSuffix(self):
+  def testStrEndswithTupleSuffix(self) -> None:
     fuzz_test_lib.run_fuzztest(
         str_endswith_tuple_suffix,
         expected_output=b"Ended with oneof (bazbiz, byebye, cyalater)",
@@ -308,7 +308,7 @@ class IntegrationTests(unittest.TestCase):
         timeout=60,
     )
 
-  def testStrStartswithStartEndArgs(self):
+  def testStrStartswithStartEndArgs(self) -> None:
     fuzz_test_lib.run_fuzztest(
         str_startswith_with_start_and_end,
         expected_output=b"Started with hellohi at index 10",
@@ -316,7 +316,7 @@ class IntegrationTests(unittest.TestCase):
         timeout=60,
     )
 
-  def testStrEndswithStartEndArgs(self):
+  def testStrEndswithStartEndArgs(self) -> None:
     fuzz_test_lib.run_fuzztest(
         str_endswith_with_start_and_end,
         expected_output=b"Ended with supyo at end index 15",
@@ -324,39 +324,39 @@ class IntegrationTests(unittest.TestCase):
         timeout=60,
     )
 
-  def testExitsGracefullyOnPyFail(self):
+  def testExitsGracefullyOnPyFail(self) -> None:
     fuzz_test_lib.run_fuzztest(
         fail_immediately, expected_output=b"Exiting gracefully.")
 
-  def testExitsGracefullyOnRunsOut(self):
+  def testExitsGracefullyOnRunsOut(self) -> None:
     fuzz_test_lib.run_fuzztest(
         never_fail,
         args=["-atheris_runs=2"],
         expected_output=b"Exiting gracefully.")
 
-  def testExceptionWithSurrogates(self):
+  def testExceptionWithSurrogates(self) -> None:
     fuzz_test_lib.run_fuzztest(
         raise_with_surrogates,
         args=["-atheris_runs=1"],
         expected_output=b"abc \\ud927 def")
 
-  def testRunsOutCount(self):
+  def testRunsOutCount(self) -> None:
     fuzz_test_lib.run_fuzztest(
         never_fail, args=["-atheris_runs=3"], expected_output=b"Done 3 in ")
 
-  def testCompressedDataWithoutCustomMutator(self):
+  def testCompressedDataWithoutCustomMutator(self) -> None:
     try:
       fuzz_test_lib.run_fuzztest(compressed_data)
     except TimeoutError:  # Expected to timeout without a custom mutator.
       pass
 
-  def testReserveCounterAfterFuzzStart(self):
+  def testReserveCounterAfterFuzzStart(self) -> None:
     fuzz_test_lib.run_fuzztest(
         reserve_counter_after_fuzz_start,
         args=["-atheris_runs=2"],
         expected_output=b"Exiting gracefully.")
 
-  def testInstrumentCodeWhileFuzzing(self):
+  def testInstrumentCodeWhileFuzzing(self) -> None:
     fuzz_test_lib.run_fuzztest(
         runtime_instrument_code,
         timeout=90,

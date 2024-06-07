@@ -36,7 +36,7 @@ class ProgressRenderer:
     self._current_width = 0
     self.render()
 
-  def render(self):
+  def render(self) -> None:
     self.erase()
     done_percent = int(100 * self._count / self.total_count)
     message = f"[{self._count}/{self.total_count}] {done_percent}%"
@@ -44,14 +44,14 @@ class ProgressRenderer:
     self.stream.flush()
     self._current_width = len(message)
 
-  def erase(self):
+  def erase(self) -> None:
     self.stream.write(("\b" * self._current_width) +
                       (" " * self._current_width) +
                       ("\b" * self._current_width))
     self.stream.flush()
     self._current_width = 0
 
-  def drop(self):
+  def drop(self) -> None:
     self._current_width = 0
     sys.stderr.write("\n")
 
@@ -60,6 +60,6 @@ class ProgressRenderer:
     return self._count
 
   @count.setter
-  def count(self, new_count: int):
+  def count(self, new_count: int) -> None:
     self._count = new_count
     self.render()

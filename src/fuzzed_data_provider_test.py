@@ -50,14 +50,14 @@ BYTE_ORDER_LITTLE_ENDIAN = to_bytes(0xFEFF, length=2)
 
 class FuzzedDataProviderTest(unittest.TestCase):
 
-  def testUnicodeActuallyAscii(self):
+  def testUnicodeActuallyAscii(self) -> None:
     fdp = atheris.FuzzedDataProvider(ASCII_BYTEMARK + b"abc123\0\x7f" +
                                      BYTE_ORDER_LITTLE_ENDIAN + b"\xd1")
     expected = "abc123\0\x7f\x7f\x7e\x51"
     actual = fdp.ConsumeUnicode(atheris.ALL_REMAINING)
     self.assertEqual(expected, actual)
 
-  def testUnicode16(self):
+  def testUnicode16(self) -> None:
     fdp = atheris.FuzzedDataProvider(UTF16_BYTEMARK + b"abc123\0\x7f" +
                                      HIGH_SURROGATE + LOW_SURROGATE + b"\xd1")
 
@@ -68,7 +68,7 @@ class FuzzedDataProviderTest(unittest.TestCase):
     actual = fdp.ConsumeUnicode(atheris.ALL_REMAINING)
     self.assertEqual(expected, actual)
 
-  def testUnicode16NoSurrogate(self):
+  def testUnicode16NoSurrogate(self) -> None:
     fdp = atheris.FuzzedDataProvider(UTF16_BYTEMARK + b"abc123\0\x7f" +
                                      HIGH_SURROGATE + LOW_SURROGATE + b"\xd1")
 
@@ -82,7 +82,7 @@ class FuzzedDataProviderTest(unittest.TestCase):
     actual = fdp.ConsumeUnicodeNoSurrogates(atheris.ALL_REMAINING)
     self.assertEqual(expected, actual)
 
-  def testUnicode32(self):
+  def testUnicode32(self) -> None:
     fdp = atheris.FuzzedDataProvider(UTF32_BYTEMARK + b"dc\x0e\0" + b"4321" +
                                      HIGH_SURROGATE + b"\0\0" + LOW_SURROGATE +
                                      b"\0\0" + b"\xd1")
@@ -100,7 +100,7 @@ class FuzzedDataProviderTest(unittest.TestCase):
     self.assertEqual(len(expected), len(actual))
     self.assertEqual(expected, actual)
 
-  def testUnicode32NoSurrogate(self):
+  def testUnicode32NoSurrogate(self) -> None:
     fdp = atheris.FuzzedDataProvider(UTF32_BYTEMARK + b"dc\x0e\0" + b"4321" +
                                      HIGH_SURROGATE + b"\0\0" + LOW_SURROGATE +
                                      b"\0\0" + b"\xd1")
@@ -118,13 +118,13 @@ class FuzzedDataProviderTest(unittest.TestCase):
     self.assertEqual(len(expected), len(actual))
     self.assertEqual(expected, actual)
 
-  def testBytes(self):
+  def testBytes(self) -> None:
     expected = b"abc123\0\0xff\0x7f\0x80"
     fdp = atheris.FuzzedDataProvider(expected)
 
     self.assertEqual(expected, fdp.ConsumeBytes(atheris.ALL_REMAINING))
 
-  def testString(self):
+  def testString(self) -> None:
     if sys.version_info[0] >= 3:
       fdp = atheris.FuzzedDataProvider(ASCII_BYTEMARK + b"abc" +
                                        ASCII_BYTEMARK + b"123")
@@ -135,80 +135,80 @@ class FuzzedDataProviderTest(unittest.TestCase):
       self.assertEqual("abc", fdp.ConsumeString(3))
       self.assertEqual("123", fdp.ConsumeString(atheris.ALL_REMAINING))
 
-  def testInt1(self):
+  def testInt1(self) -> None:
     fdp = atheris.FuzzedDataProvider(b"\x01\x02\x03\x04\x05\x06\x07\x08")
     self.assertEqual(fdp.ConsumeInt(1), 0x01)
 
-  def testUInt1(self):
+  def testUInt1(self) -> None:
     fdp = atheris.FuzzedDataProvider(b"\xe1\x02\x03\x04\x05\x06\x07\x08")
     self.assertEqual(fdp.ConsumeUInt(1), 0xe1)
 
-  def testNegInt1(self):
+  def testNegInt1(self) -> None:
     fdp = atheris.FuzzedDataProvider(b"\x81\x02\x03\x04\x05\x06\x07\x08")
     self.assertEqual(fdp.ConsumeInt(1), 0x81 - 0x100)
 
-  def testInt2(self):
+  def testInt2(self) -> None:
     fdp = atheris.FuzzedDataProvider(b"\x01\x02\x03\x04\x05\x06\x07\x08")
     self.assertEqual(fdp.ConsumeInt(2), 0x0201)
 
-  def testUInt2(self):
+  def testUInt2(self) -> None:
     fdp = atheris.FuzzedDataProvider(b"\xa1\xe2\x03\x04\x05\x06\x07\x08")
     self.assertEqual(fdp.ConsumeUInt(2), 0xe2a1)
 
-  def testNegInt2(self):
+  def testNegInt2(self) -> None:
     fdp = atheris.FuzzedDataProvider(b"\x10\x82\x03\x04\x05\x06\x07\x08")
     self.assertEqual(fdp.ConsumeInt(2), 0x8210 - 0x10000)
 
-  def testInt3(self):
+  def testInt3(self) -> None:
     fdp = atheris.FuzzedDataProvider(b"\x01\x02\x03\x04\x05\x06\x07\x08")
     self.assertEqual(fdp.ConsumeInt(3), 0x030201)
 
-  def testUInt3(self):
+  def testUInt3(self) -> None:
     fdp = atheris.FuzzedDataProvider(b"\xa1\xb2\xc3\x04\x05\x06\x07\x08")
     self.assertEqual(fdp.ConsumeUInt(3), 0xc3b2a1)
 
-  def testNegInt3(self):
+  def testNegInt3(self) -> None:
     fdp = atheris.FuzzedDataProvider(b"\x01\x02\xd3\x04\x05\x06\x07\x08")
     self.assertEqual(fdp.ConsumeInt(3), 0xd30201 - 0x1000000)
 
-  def testInt4(self):
+  def testInt4(self) -> None:
     fdp = atheris.FuzzedDataProvider(b"\x01\x02\x03\x04\x05\x06\x07\x08")
     self.assertEqual(fdp.ConsumeInt(4), 0x4030201)
 
-  def testUInt4(self):
+  def testUInt4(self) -> None:
     fdp = atheris.FuzzedDataProvider(b"\xa1\xb2\xc3\xd4\x05\x06\x07\x08")
     self.assertEqual(fdp.ConsumeUInt(4), 0xd4c3b2a1)
 
-  def testNegInt4(self):
+  def testNegInt4(self) -> None:
     fdp = atheris.FuzzedDataProvider(b"\x01\x02\x03\xe4\x05\x06\x07\x08")
     self.assertEqual(fdp.ConsumeInt(4), 0xe4030201 - 0x100000000)
 
-  def testInt8(self):
+  def testInt8(self) -> None:
     fdp = atheris.FuzzedDataProvider(b"\x01\x02\x03\x04\x05\x06\x07\x08")
     self.assertEqual(fdp.ConsumeInt(8), 0x0807060504030201)
 
-  def testNegInt8(self):
+  def testNegInt8(self) -> None:
     fdp = atheris.FuzzedDataProvider(b"\x01\x02\x03\x04\x05\x06\x07\xb8")
     self.assertEqual(
         fdp.ConsumeInt(8), 0xb807060504030201 - 0x10000000000000000)
 
-  def testInt9(self):
+  def testInt9(self) -> None:
     fdp = atheris.FuzzedDataProvider(
         b"\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a")
     self.assertEqual(fdp.ConsumeInt(9), 0x090807060504030201)
 
-  def testNegInt9(self):
+  def testNegInt9(self) -> None:
     fdp = atheris.FuzzedDataProvider(
         b"\x01\x02\x03\x04\x05\x06\x07\x08\xe9\x0a")
     self.assertEqual(
         fdp.ConsumeInt(9), 0xe90807060504030201 - 0x1000000000000000000)
 
-  def testUInt9(self):
+  def testUInt9(self) -> None:
     fdp = atheris.FuzzedDataProvider(
         b"\xa1\xb2\xc3\xd4\xe5\xf6\xa7\xb8\xc9\xda")
     self.assertEqual(fdp.ConsumeUInt(9), 0xc9b8a7f6e5d4c3b2a1)
 
-  def testInRange1(self):
+  def testInRange1(self) -> None:
     arr = b""
     for _ in range(0, 1000):
       arr += to_bytes(random.randint(0, 255), 1)
@@ -226,7 +226,7 @@ class FuzzedDataProviderTest(unittest.TestCase):
         self.assertGreaterEqual(result, two)
         self.assertLessEqual(result, one)
 
-  def testInRange9(self):
+  def testInRange9(self) -> None:
     arr = b""
     for _ in range(0, 1000):
       arr += to_bytes(random.randint(0, 255), 1)
@@ -244,7 +244,7 @@ class FuzzedDataProviderTest(unittest.TestCase):
         self.assertGreaterEqual(result, two)
         self.assertLessEqual(result, one)
 
-  def testIntList1(self):
+  def testIntList1(self) -> None:
     arr = bytearray()
     for _ in range(0, 1000):
       arr += to_bytes(random.randint(0, 255), 1)
@@ -265,7 +265,7 @@ class FuzzedDataProviderTest(unittest.TestCase):
     for i in range(1000, 4321):
       self.assertEqual(l[i], 0)
 
-  def testIntList9(self):
+  def testIntList9(self) -> None:
     arr = b""
     for _ in range(0, 1000):
       arr += to_bytes(random.randint(0, 2**72 - 1), 9)
@@ -281,7 +281,7 @@ class FuzzedDataProviderTest(unittest.TestCase):
     for i in range(1000, 4321):
       self.assertEqual(l[i], 0)
 
-  def testNonInfiniteFloat(self):
+  def testNonInfiniteFloat(self) -> None:
     arr = []
     arr.append(50)
     arr.append(152)
@@ -300,7 +300,7 @@ class FuzzedDataProviderTest(unittest.TestCase):
     self.assertGreaterEqual(val, -1.7976931348623157e+308)
     self.assertLessEqual(val, 1.7976931348623157e+308)
 
-  def testFloatList(self):
+  def testFloatList(self) -> None:
     arr = b""
     for i in range(0, 256):
       arr += to_bytes(i, 1)
@@ -354,7 +354,7 @@ class FuzzedDataProviderTest(unittest.TestCase):
       self.assertGreater(val, -1.79769313e+308)
       self.assertLess(val, 1.79769313e+308)
 
-  def testPickValueInList1(self):
+  def testPickValueInList1(self) -> None:
     l = [3, 3]  # noqa: E741
 
     arr = to_bytes(random.getrandbits(1024), int(1024 / 8))
@@ -367,7 +367,7 @@ class FuzzedDataProviderTest(unittest.TestCase):
 
     self.assertEqual(fdp.PickValueInList(l), 3)
 
-  def testPickValueInList7(self):
+  def testPickValueInList7(self) -> None:
     l = [4, 17, 52, 12, 8, 71, 2]  # noqa: E741
     s = set()
 
@@ -380,7 +380,7 @@ class FuzzedDataProviderTest(unittest.TestCase):
     self.assertEqual(s, set(l))
     self.assertEqual(fdp.PickValueInList(l), 4)
 
-  def testPickValueInListShort(self):
+  def testPickValueInListShort(self) -> None:
     l = []  # noqa: E741
     for i in range(1, 10001):
       l.append(i * 13)
